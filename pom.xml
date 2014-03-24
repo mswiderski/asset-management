@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.kie.management</groupId>
+	<artifactId>asset-management</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>KIE Asset Management</name>
+	<modules>
+		<module>asset-management-extensions</module>
+		<module>asset-management-test</module>
+		<module>asset-management-kmodule</module>
+	</modules>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.kie.management</groupId>
+				<artifactId>asset-management-extensions</artifactId>
+				<version>${version.org.kie.asset.management}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.kie.management</groupId>
+				<artifactId>asset-management-kmodule</artifactId>
+				<version>${version.org.kie.asset.management}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.kie.management</groupId>
+				<artifactId>asset-management-test</artifactId>
+				<version>${version.org.kie.asset.management}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jgit</groupId>
+				<artifactId>org.eclipse.jgit</artifactId>
+				<version>${version.org.eclipse.jgit}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.kie</groupId>
+				<artifactId>kie-api</artifactId>
+				<version>${version.org.kie}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.kie</groupId>
+				<artifactId>kie-internal</artifactId>
+				<version>${version.org.kie}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.drools</groupId>
+				<artifactId>drools-core</artifactId>
+				<version>${version.org.kie}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${version.org.slf4j}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${version.ch.qos.logback}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${version.junit}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<properties>
+		<version.org.kie.asset.management>1.0.0-SNAPSHOT</version.org.kie.asset.management>
+		<version.org.eclipse.jgit>2.1.0.201209190230-r</version.org.eclipse.jgit>
+		<version.org.kie>6.1.0-SNAPSHOT</version.org.kie>
+		<version.org.slf4j>1.7.2</version.org.slf4j>
+		<version.ch.qos.logback>1.0.9</version.ch.qos.logback>
+		<version.junit>4.11</version.junit>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<fork>true</fork>
+					<meminitial>128m</meminitial>
+					<maxmem>512m</maxmem>
+					<showDeprecation>false</showDeprecation>
+					<showWarnings>false</showWarnings>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
