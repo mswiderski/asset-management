@@ -2,13 +2,17 @@ package org.kie.asset.management.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class CommitInfo implements Serializable {
 
-    private String commitId;
+	private static final long serialVersionUID = -6255022381087425142L;
+	private String commitId;
     private String message;
     private String author;
     private Date commitDate;
+    
+    private List<FileInfo> filesInCommit;
 
     public CommitInfo(String commitId, String message, String author, Date commitDate) {
         this.commitId = commitId;
@@ -55,6 +59,16 @@ public class CommitInfo implements Serializable {
                 ", message='" + message + '\'' +
                 ", author='" + author + '\'' +
                 ", commitDate=" + commitDate +
+                "\n"+
+                filesInCommit +
                 '}';
     }
+
+	public List<FileInfo> getFilesInCommit() {
+		return filesInCommit;
+	}
+
+	public void setFilesInCommit(List<FileInfo> filesInCommit) {
+		this.filesInCommit = filesInCommit;
+	}
 }
