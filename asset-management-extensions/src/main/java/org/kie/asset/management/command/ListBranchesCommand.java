@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
-import org.kie.api.runtime.process.WorkItem;
 import org.kie.asset.management.model.BranchInfo;
 import org.kie.internal.executor.api.CommandContext;
 import org.kie.internal.executor.api.ExecutionResults;
@@ -15,8 +14,7 @@ public class ListBranchesCommand extends GitCommand {
     @Override
     public ExecutionResults execute(CommandContext commandContext) throws Exception {
 
-        WorkItem workItem = (WorkItem) commandContext.getData("workItem");
-        String gitRepo = (String) workItem.getParameter("GitRepository");
+        String gitRepo = (String) getParameter(commandContext, "GitRepository");
 
         Git git = get(gitRepo);
 

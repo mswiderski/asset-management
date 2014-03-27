@@ -1,7 +1,6 @@
 package org.kie.asset.management.command;
 
 import org.eclipse.jgit.api.Git;
-import org.kie.api.runtime.process.WorkItem;
 import org.kie.internal.executor.api.CommandContext;
 import org.kie.internal.executor.api.ExecutionResults;
 
@@ -10,11 +9,10 @@ public class DeleteBranchCommand extends GitCommand {
     @Override
     public ExecutionResults execute(CommandContext commandContext) throws Exception {
 
-        WorkItem workItem = (WorkItem) commandContext.getData("workItem");
-        String gitRepo = (String) workItem.getParameter("GitRepository");
+        String gitRepo = (String) getParameter(commandContext, "GitRepository");
 
-        String branchName = (String) workItem.getParameter("BranchName");
-        String force = (String) workItem.getParameter("Force");
+        String branchName = (String) getParameter(commandContext, "BranchName");
+        String force = (String) getParameter(commandContext, "Force");
 
         boolean forceDelete = true;
         if (force != null) {

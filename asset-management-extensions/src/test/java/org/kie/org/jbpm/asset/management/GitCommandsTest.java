@@ -1,8 +1,8 @@
 package org.kie.org.jbpm.asset.management;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +10,8 @@ import org.drools.core.process.instance.impl.WorkItemImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kie.asset.management.command.CherryPickCommand;
+import org.kie.asset.management.command.CloneRepositoryCommand;
 import org.kie.asset.management.command.CreateBranchCommand;
 import org.kie.asset.management.command.DeleteBranchCommand;
 import org.kie.asset.management.command.ListBranchesCommand;
@@ -30,6 +32,7 @@ public class GitCommandsTest extends AbstractTestCase {
 
     @Before
     public void setup() throws Exception {
+    	cleanTestGitRepo();
         setupTestGitRepo("https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git",
         		"jbpm-playground.git", "guvnorngtestuser1", "test1234");
         workItem = new WorkItemImpl();
@@ -66,6 +69,29 @@ public class GitCommandsTest extends AbstractTestCase {
 
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCreateBranchCommand() throws Exception {
+        CreateBranchCommand command = new CreateBranchCommand();
+        
+        workItem.setParameter("BranchName", "DEV-BRANCH");
+
+        ExecutionResults results = command.execute(context);
+        
+        ListBranchesCommand listcommand = new ListBranchesCommand();        
+
+        results = listcommand.execute(context);
+
+        assertNotNull(results);
+        List<BranchInfo> branches = (List<BranchInfo>) results.getData("Branches");
+        assertNotNull(branches);
+        
+        for (BranchInfo branchInfo : branches) {
+        	logger.info("Found branch {}", branchInfo);
+        }
+        assertEquals(2, branches.size());
+    }
+    
     @SuppressWarnings("unchecked")
 	@Test
     public void testCreateAndDeleteBranchCommand() throws Exception {
@@ -104,6 +130,134 @@ public class GitCommandsTest extends AbstractTestCase {
         	logger.info("Found branch {}", branchInfo);
         }
         assertEquals(1, branches.size());
+        
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCreateBranchAndCherryPickCommand() throws Exception {
+        // create dev branch in bare repository
+    	CreateBranchCommand command = new CreateBranchCommand();
+        
+        workItem.setParameter("BranchName", "DEV-BRANCH");
+        workItem.setParameter("StartPoint", "5b24cb037228e1f1791dac292af29b9e2fcb3b35");
+
+        ExecutionResults results = command.execute(context);
+        // list branches on bare repository
+        ListBranchesCommand listcommand = new ListBranchesCommand();        
+
+        results = listcommand.execute(context);
+
+        assertNotNull(results);
+        List<BranchInfo> branches = (List<BranchInfo>) results.getData("Branches");
+        assertNotNull(branches);
+        
+        for (BranchInfo branchInfo : branches) {
+        	logger.info("Found branch {}", branchInfo);
+        }
+        assertEquals(2, branches.size());
+        
+        ListCommitsCommand listCommand = new ListCommitsCommand();
+        
+        workItem.setParameter("MaxCount", "1");
+        results = listCommand.execute(context);
+        List<CommitInfo> commitsFound = (List<CommitInfo>) results.getData("Commits");
+        assertEquals(1, commitsFound.size());
+        String messageBeforeCherryPick = commitsFound.get(0).getMessage();
+        
+        // now let's clone to working copy
+        CloneRepositoryCommand cloneCommand = new CloneRepositoryCommand();
+        results = cloneCommand.execute(context);
+        
+        String workingCopyDir = (String) results.getData("WorkingCopyDir");
+        removeAfterTest(workingCopyDir);
+        
+        CherryPickCommand cherryPickCommand = new CherryPickCommand();
+        List<String> commits = new ArrayList<String>();        
+        commits.add("3ed7d21eab4f9c29a815e708a8858046501886f1");
+        
+        workItem.setParameter("Commits", commits);
+        workItem.setParameter("GitRepositoryLocation", workingCopyDir);
+        
+        results = cherryPickCommand.execute(context);
+        String cherryPickResult = (String) results.getData("CherryPickResult");
+        assertEquals("OK", cherryPickResult);
+        
+        listCommand = new ListCommitsCommand();
+        
+        workItem.setParameter("MaxCount", "1");
+        results = listCommand.execute(context);
+
+        assertNotNull(results);
+        commitsFound = (List<CommitInfo>) results.getData("Commits");
+        assertEquals(1, commitsFound.size());
+        String message = commitsFound.get(0).getMessage();
+        
+        assertNotEquals(messageBeforeCherryPick, message);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCreateBranchAndCherryPickCommandConflict() throws Exception {
+        // create dev branch in bare repository
+    	CreateBranchCommand command = new CreateBranchCommand();
+        
+        workItem.setParameter("BranchName", "DEV-BRANCH");
+        workItem.setParameter("StartPoint", "5b24cb037228e1f1791dac292af29b9e2fcb3b35");
+
+        ExecutionResults results = command.execute(context);
+        // list branches on bare repository
+        ListBranchesCommand listcommand = new ListBranchesCommand();        
+
+        results = listcommand.execute(context);
+
+        assertNotNull(results);
+        List<BranchInfo> branches = (List<BranchInfo>) results.getData("Branches");
+        assertNotNull(branches);
+        
+        for (BranchInfo branchInfo : branches) {
+        	logger.info("Found branch {}", branchInfo);
+        }
+        assertEquals(2, branches.size());
+        
+        ListCommitsCommand listCommand = new ListCommitsCommand();
+        
+        workItem.setParameter("MaxCount", "1");
+        results = listCommand.execute(context);
+        List<CommitInfo> commitsFound = (List<CommitInfo>) results.getData("Commits");
+        assertEquals(1, commitsFound.size());
+        String messageBeforeCherryPick = commitsFound.get(0).getMessage();
+        
+        // now let's clone to working copy
+        CloneRepositoryCommand cloneCommand = new CloneRepositoryCommand();
+        results = cloneCommand.execute(context);
+        
+        String workingCopyDir = (String) results.getData("WorkingCopyDir");
+        removeAfterTest(workingCopyDir);
+        
+        CherryPickCommand cherryPickCommand = new CherryPickCommand();
+        List<String> commits = new ArrayList<String>();        
+        commits.add("81e02974268254b23f6285aabca910ac80156457");
+        commits.add("3ed7d21eab4f9c29a815e708a8858046501886f1");        
+        
+        workItem.setParameter("Commits", commits);
+        workItem.setParameter("GitRepositoryLocation", workingCopyDir);
+        
+        results = cherryPickCommand.execute(context);
+        String cherryPickResult = (String) results.getData("CherryPickResult");
+        assertEquals("CONFLICTING", cherryPickResult);
+        
+        listCommand = new ListCommitsCommand();
+        
+        workItem.setParameter("MaxCount", "1");
+        results = listCommand.execute(context);
+
+        assertNotNull(results);
+        commitsFound = (List<CommitInfo>) results.getData("Commits");
+        assertEquals(1, commitsFound.size());
+        String message = commitsFound.get(0).getMessage();
+        
+        assertEquals(messageBeforeCherryPick, message);
         
     }
 }

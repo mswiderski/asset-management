@@ -1,6 +1,8 @@
 package org.kie.org.jbpm.asset.management;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -8,6 +10,7 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 public abstract class AbstractTestCase {
 	
 	protected static final String TEMP_LOCATION = System.getProperty("java.io.tmpdir") + File.separator + ".niogit";
+	private Set<String> deleteAfterTest = new HashSet<String>();
 	
 	protected void setupTestGitRepo(String fromURI, String alias, String username, String password) throws Exception {
 		
@@ -23,12 +26,20 @@ public abstract class AbstractTestCase {
 
 		
 	}
+	
+	protected void removeAfterTest(String path) {
+		this.deleteAfterTest.add(path);
+	}
 
 	protected void cleanTestGitRepo() {
 		System.clearProperty("org.uberfire.nio.git.dir");
 		File niogit = new File(TEMP_LOCATION);
 		
 		removeFiles(niogit);
+		
+		for (String remove : deleteAfterTest) {
+			removeFiles(new File(remove));
+		}
 	}
 	
 	protected void removeFiles(File directory) {

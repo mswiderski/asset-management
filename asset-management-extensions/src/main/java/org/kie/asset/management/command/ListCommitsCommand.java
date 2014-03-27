@@ -18,7 +18,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.NullOutputStream;
-import org.kie.api.runtime.process.WorkItem;
 import org.kie.asset.management.model.CommitInfo;
 import org.kie.asset.management.model.FileInfo;
 import org.kie.internal.executor.api.CommandContext;
@@ -35,14 +34,13 @@ public class ListCommitsCommand extends GitCommand {
     @Override
     public ExecutionResults execute(CommandContext commandContext) throws Exception {
 
-        WorkItem workItem = (WorkItem) commandContext.getData("workItem");
-        String gitRepo = (String) workItem.getParameter("GitRepository");
-        String maxCount = (String) workItem.getParameter("MaxCount");
-        String branchName = (String) workItem.getParameter("BranchName");
+        String gitRepo = (String) getParameter(commandContext, "GitRepository");
+        String maxCount = (String) getParameter(commandContext, "MaxCount");
+        String branchName = (String) getParameter(commandContext, "BranchName");
 
         int maxCommits = 10;
         if (maxCount != null) {
-            Integer.parseInt(maxCount);
+        	maxCommits = Integer.parseInt(maxCount);
         }
 
         Git git = get(gitRepo);
@@ -59,6 +57,7 @@ public class ListCommitsCommand extends GitCommand {
             Date commitDate = new Date(commit.getCommitTime() * 1000L);
             CommitInfo commitInfo = new CommitInfo(commit.getId().getName(), shortMessage, commit.getAuthorIdent().getName(), commitDate);
             commits.add(commitInfo);
+            System.out.println(commitInfo);
             commitInfo.setFilesInCommit(getFilesInCommit(git.getRepository(), commit));
         }
         
