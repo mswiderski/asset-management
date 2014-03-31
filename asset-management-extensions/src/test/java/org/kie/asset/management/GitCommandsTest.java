@@ -1,4 +1,4 @@
-package org.kie.org.jbpm.asset.management;
+package org.kie.asset.management;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package org.kie.org.jbpm.asset.management;
+package org.kie.asset.management;
 
 import java.io.File;
 import java.util.HashSet;
@@ -6,11 +6,24 @@ import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.jbpm.test.JbpmJUnitBaseTestCase;
 
-public abstract class AbstractTestCase {
+public abstract class AbstractTestCase extends JbpmJUnitBaseTestCase {
 	
 	protected static final String TEMP_LOCATION = System.getProperty("java.io.tmpdir") + File.separator + ".niogit";
 	private Set<String> deleteAfterTest = new HashSet<String>();
+	
+	public AbstractTestCase() {
+		super();
+	}
+	
+	public AbstractTestCase(boolean setupDataSource, boolean sessionPersistence) {
+		super(setupDataSource, sessionPersistence);
+	}
+	
+	public AbstractTestCase(boolean setupDataSource, boolean sessionPersistence, String persistenceUnitName) {
+		super(setupDataSource, sessionPersistence, persistenceUnitName);
+	}
 	
 	protected void setupTestGitRepo(String fromURI, String alias, String username, String password) throws Exception {
 		
