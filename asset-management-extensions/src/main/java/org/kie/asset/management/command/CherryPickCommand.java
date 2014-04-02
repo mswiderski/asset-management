@@ -16,9 +16,9 @@ public class CherryPickCommand extends GitCommand {
 	@Override
     public ExecutionResults execute(CommandContext commandContext) throws Exception {
 
-    	String gitRepoLocation = (String) getParameter(commandContext, "GitRepositoryLocation");
+    	String gitRepoLocation = (String) getParameter(commandContext, "WorkingCopyDir");
         String gitRepo = (String) getParameter(commandContext, "GitRepository");
-        String toBranchName = (String) getParameter(commandContext, "BranchName");
+        String toBranchName = (String) getParameter(commandContext, "ToBranchName");
         String directPush = (String) getParameter(commandContext, "DirectPush");
 
         List<String> commits = (List<String>) getParameter(commandContext, "Commits");

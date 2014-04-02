@@ -177,7 +177,8 @@ public class GitCommandsTest extends AbstractTestCase {
         commits.add("3ed7d21eab4f9c29a815e708a8858046501886f1");
         
         workItem.setParameter("Commits", commits);
-        workItem.setParameter("GitRepositoryLocation", workingCopyDir);
+        workItem.setParameter("WorkingCopyDir", workingCopyDir);
+        workItem.setParameter("ToBranchName", "DEV-BRANCH");
         
         results = cherryPickCommand.execute(context);
         String cherryPickResult = (String) results.getData("CherryPickResult");
@@ -241,7 +242,8 @@ public class GitCommandsTest extends AbstractTestCase {
         commits.add("3ed7d21eab4f9c29a815e708a8858046501886f1");        
         
         workItem.setParameter("Commits", commits);
-        workItem.setParameter("GitRepositoryLocation", workingCopyDir);
+        workItem.setParameter("WorkingCopyDir", workingCopyDir);
+        workItem.setParameter("ToBranchName", "DEV-BRANCH");
         
         results = cherryPickCommand.execute(context);
         String cherryPickResult = (String) results.getData("CherryPickResult");

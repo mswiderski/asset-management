@@ -29,11 +29,14 @@ public abstract class GitCommand implements Command {
     }
 
     protected Object getParameter(CommandContext commandContext, String parameterName) {
+         if(commandContext.getData(parameterName) !=null){
+             return commandContext.getData(parameterName);
+         }
     	 WorkItem workItem = (WorkItem) commandContext.getData("workItem");
          if (workItem != null) {
         	 return workItem.getParameter(parameterName);
          }
+         return null;
          
-         return commandContext.getData(parameterName);
     }
 }
