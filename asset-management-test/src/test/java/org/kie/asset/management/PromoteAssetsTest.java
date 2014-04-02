@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.jbpm.executor.ExecutorServiceFactory;
 import org.jbpm.executor.commands.PrintOutCommand;
 import org.jbpm.executor.impl.wih.AsyncWorkItemHandler;
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
 import org.kie.api.runtime.manager.RuntimeEngine;
@@ -146,10 +145,7 @@ public class PromoteAssetsTest extends AbstractTestCase {
         
         taskService.complete(selectFilesToPromoteSum, "salaboy", parameters);
 
-        Thread.sleep(3000);		
-	assertProcessInstanceActive(processInstance.getId(), engine.getKieSession());
-        
-        Thread.sleep(3000);
+        Thread.sleep(4000);
         assertProcessInstanceCompleted(processInstance.getId(), engine.getKieSession());
 
         
