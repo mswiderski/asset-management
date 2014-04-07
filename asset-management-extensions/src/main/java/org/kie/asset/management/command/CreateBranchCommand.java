@@ -13,6 +13,10 @@ public class CreateBranchCommand extends GitCommand {
 
         String branchName = (String) getParameter(commandContext, "BranchName");
         String startPoint = (String) getParameter(commandContext, "StartPoint");
+        String version = (String) getParameter(commandContext, "Version");
+        if (version != null && !version.isEmpty()) {
+        	branchName = branchName + "-" + version;
+        }
 
         Git git = get(gitRepo);
         org.eclipse.jgit.api.CreateBranchCommand gitCmd = git.branchCreate().setName(branchName);
