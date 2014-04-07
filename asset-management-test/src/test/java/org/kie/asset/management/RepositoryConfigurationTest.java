@@ -74,6 +74,8 @@ public class RepositoryConfigurationTest extends AbstractTestCase {
 		
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("RepositoryName", "jbpm-playground.git");
+		parameters.put("DevBranchName", "Development");
+		parameters.put("RelBranchName", "Release");
 		
 		ProcessInstance processInstance = engine.getKieSession().startProcess("asset-management-kmodule.ConfigureRepository", parameters);
 		assertProcessInstanceActive(processInstance.getId(), engine.getKieSession());
@@ -134,6 +136,8 @@ public class RepositoryConfigurationTest extends AbstractTestCase {
 		
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("RepositoryName", "jbpm-playground.git");
+		parameters.put("DevBranchName", "Development");
+		parameters.put("RelBranchName", "Release");
 		
 		ProcessInstance processInstance = engine.getKieSession().startProcess("asset-management-kmodule.ConfigureRepository", parameters);
 		assertProcessInstanceActive(processInstance.getId(), engine.getKieSession());
