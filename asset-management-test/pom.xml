@@ -124,5 +124,17 @@
 			<artifactId>jsch</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jsch</artifactId>
+					<groupId>com.jcraft</groupId>
+				</exclusion>
+			</exclusions>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

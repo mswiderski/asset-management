@@ -19,26 +19,31 @@
 					<groupId>com.jcraft</groupId>
 				</exclusion>
 			</exclusions>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kie</groupId>
 			<artifactId>kie-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.kie</groupId>
 			<artifactId>kie-internal</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-core</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-compiler</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -50,6 +55,7 @@
 		<dependency>
 			<groupId>org.guvnor</groupId>
 			<artifactId>guvnor-project-builder</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -73,6 +79,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -91,6 +98,11 @@
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jbpm</groupId>
+			<artifactId>jbpm-executor</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

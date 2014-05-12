@@ -9,8 +9,8 @@ import org.guvnor.common.services.project.builder.model.BuildResults;
 import org.guvnor.common.services.project.builder.service.BuildService;
 import org.guvnor.common.services.project.model.Project;
 import org.guvnor.common.services.project.service.ProjectService;
-import org.kie.asset.management.util.CDIUtils;
-import org.kie.asset.management.util.NamedLiteral;
+import org.jbpm.executor.cdi.CDIUtils;
+import org.jbpm.executor.cdi.NamedLiteral;
 import org.kie.internal.executor.api.CommandContext;
 import org.kie.internal.executor.api.ExecutionResults;
 import org.slf4j.Logger;
@@ -47,6 +47,9 @@ public class BuildProjectCommand extends AbstractCommand {
 			
 			ProjectService projectService = CDIUtils.createBean(ProjectService.class, beanManager);
 			Project project = projectService.resolveProject(Paths.convert(projectPath));
+			if (project == null) {
+				throw new IllegalArgumentException("Unable to find project " + projectUri);
+			}
 			BuildResults results = buildService.build(project);			
 			// dump to debug if enabled
 			if (logger.isDebugEnabled()) {
