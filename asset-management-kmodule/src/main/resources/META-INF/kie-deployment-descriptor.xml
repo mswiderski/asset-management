@@ -9,7 +9,17 @@
     <event-listeners/>
     <task-event-listeners/>
     <globals/>
-    <work-item-handlers/>
+    <work-item-handlers>
+        <work-item-handler>
+            <resolver>reflection</resolver>
+            <identifier>org.jbpm.process.workitem.rest.RESTWorkItemHandler</identifier>
+            <parameters>
+                <parameter xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">user</parameter>
+                <parameter xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema">password</parameter>
+            </parameters>
+            <name>Rest</name>
+        </work-item-handler>
+    </work-item-handlers>
     <environment-entries/>
     <configurations/>
     <required-roles>
