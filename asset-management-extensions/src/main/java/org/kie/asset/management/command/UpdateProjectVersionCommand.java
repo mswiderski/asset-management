@@ -45,8 +45,16 @@ public class UpdateProjectVersionCommand extends AbstractCommand {
 			Path projectPath  = ioService.get(URI.create(projectUri));
 			logger.debug("Project path is " + projectPath);
 			
+			if (projectPath == null) {
+				throw new IllegalArgumentException("Unable to find project location " + projectUri);
+			}
+			
 			ProjectService projectService = CDIUtils.createBean(ProjectService.class, beanManager);
 			Project project = projectService.resolveProject(Paths.convert(projectPath));
+			
+			if (project == null) {
+				throw new IllegalArgumentException("Unable to find project " + projectUri);
+			}
 			
 			POM pom = pomService.load(project.getPomXMLPath());
 			pom.getGav().setVersion(version);
