@@ -40,7 +40,9 @@ public class ConfigureDevelopmentBranchCommand extends AbstractCommand {
 		}
 		String branchToUpdate = (String) getParameter(ctx, "BranchName");
 		String version = (String) getParameter(ctx, "Version");
-		if (!version.endsWith("-SNAPSHOT")) {
+		if (version == null) {
+			version = "1.0.0-SNAPSHOT";
+		} else if (!version.endsWith("-SNAPSHOT")) {
 			version = version.concat("-SNAPSHOT");
 		}
 		

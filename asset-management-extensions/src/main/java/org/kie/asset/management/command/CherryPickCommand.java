@@ -1,7 +1,5 @@
 package org.kie.asset.management.command;
 
-import java.util.List;
-
 import org.eclipse.jgit.api.CherryPickResult;
 import org.eclipse.jgit.api.CherryPickResult.CherryPickStatus;
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode;
@@ -9,10 +7,13 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.ObjectId;
 import org.kie.internal.executor.api.CommandContext;
 import org.kie.internal.executor.api.ExecutionResults;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CherryPickCommand extends GitCommand {
 
-    @SuppressWarnings("unchecked")
+	private static final Logger logger = LoggerFactory.getLogger(CherryPickCommand.class);
+	
 	@Override
     public ExecutionResults execute(CommandContext commandContext) throws Exception {
 
@@ -47,6 +48,8 @@ public class CherryPickCommand extends GitCommand {
         
         if (result.getStatus().equals(CherryPickStatus.OK) && push) {
         	git.push().setForce(true).call();
+        } else {
+        	logger.warn("Cherry pick failed with outcome {} due to {}", outcome, result.getFailingPaths());
         }
 
         ExecutionResults results = new ExecutionResults();

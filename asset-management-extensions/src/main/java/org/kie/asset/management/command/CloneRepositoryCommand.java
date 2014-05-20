@@ -13,7 +13,9 @@ public class CloneRepositoryCommand extends GitCommand {
 
         String gitRepo = (String) getParameter(commandContext, "GitRepository");
         
-        String fromURI = "file:////" + System.getProperty("org.uberfire.nio.git.dir", ".niogit") + File.separator + gitRepo;
+        Git git = get(gitRepo);
+
+        String fromURI = git.getRepository().getDirectory().toURI().toString(); 
         File workingCopyDir = new File(System.getProperty("java.io.tmpdir")  + System.currentTimeMillis() + File.separator + gitRepo);
         Git.cloneRepository()
         .setBare( false )

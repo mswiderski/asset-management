@@ -1,6 +1,7 @@
 package org.kie.asset.management.command;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -30,17 +31,24 @@ public class ListCommitsCommand extends GitCommand {
 	private static final Logger logger = LoggerFactory.getLogger(ListCommitsCommand.class);
 	// remove dot files from sorted commits per file
 	private static final String DEFAULT_FILER_REGEX = ".*\\/\\..*";
+	
+	private boolean skipNoParent = true;
 
     @Override
     public ExecutionResults execute(CommandContext commandContext) throws Exception {
 
         String gitRepo = (String) getParameter(commandContext, "GitRepository");
         String maxCount = (String) getParameter(commandContext, "MaxCount");
-        String branchName = (String) getParameter(commandContext, "BranchName");
+        String branchName = (String) getParameter(commandContext, "BranchName");        
 
         int maxCommits = 10;
         if (maxCount != null) {
         	maxCommits = Integer.parseInt(maxCount);
+        }
+        // control behavior if commits without a parent should be listed, default is to skip those
+        String skipNoParentStr = (String) getParameter(commandContext, "SkipNoParent");
+        if ("false".equalsIgnoreCase(skipNoParentStr)) {
+        	skipNoParent = false;
         }
 
         Git git = get(gitRepo);
@@ -52,17 +60,22 @@ public class ListCommitsCommand extends GitCommand {
 
         Iterable<RevCommit> logs = git.log().add(branch).setMaxCount(maxCommits).call();
         List<CommitInfo> commits = new ArrayList<CommitInfo>();
-        String commitsString = "";
+        
         for (RevCommit commit : logs) {
+        	if (commit.getParentCount() == 0 && skipNoParent) {
+        		continue;
+        	}
             String shortMessage = commit.getShortMessage();
             Date commitDate = new Date(commit.getCommitTime() * 1000L);
             CommitInfo commitInfo = new CommitInfo(commit.getId().getName(), shortMessage, commit.getAuthorIdent().getName(), commitDate);
-            commits.add(commitInfo);
-            commitsString += commitInfo.getCommitId() + ",";
-            System.out.println(commitInfo);
+            commits.add(commitInfo);            
+            logger.debug("Found commit {} with parent count {}", commitInfo, commit.getParentCount());
             commitInfo.setFilesInCommit(getFilesInCommit(git.getRepository(), commit));
         }
+        // reverse commits so they are from oldest to newest
+        Collections.reverse(commits);
         
+        String commitsString = dumpToString(commits);
         Map<String, List<CommitInfo>> commitsPerFile = sortByFileName(commits);
 
         ExecutionResults results = new ExecutionResults();
@@ -72,7 +85,17 @@ public class ListCommitsCommand extends GitCommand {
         return results;
     }
     
-    protected Map<String, List<CommitInfo>> sortByFileName(List<CommitInfo> commits) {
+    protected String dumpToString(List<CommitInfo> commits) {
+    	StringBuilder commitString = new StringBuilder();
+    	
+    	for (CommitInfo commit : commits) {
+    		commitString.append(commit.getCommitId()).append(",");
+    	}
+    	
+    	return commitString.toString();
+    }
+    
+    protected Map<String, List<CommitInfo>> sortByFileName(final List<CommitInfo> commits) {
     	Map<String, List<CommitInfo>> sorted = new HashMap<String, List<CommitInfo>>();
     	
     	if (commits == null) {

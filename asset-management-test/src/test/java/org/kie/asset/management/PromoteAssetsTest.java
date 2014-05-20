@@ -109,6 +109,8 @@ public class PromoteAssetsTest extends AbstractTestCase {
         ProcessInstance processInstance = engine.getKieSession().startProcess("asset-management-kmodule.PromoteAssets", parameters);
         assertProcessInstanceActive(processInstance.getId(), engine.getKieSession());
 
+        Thread.sleep(3000);
+        
         TaskService taskService = engine.getTaskService();
         List<Long> pendingTasks = taskService.getTasksByProcessInstanceId(processInstance.getId());
         assertEquals(1, pendingTasks.size());
@@ -132,10 +134,7 @@ public class PromoteAssetsTest extends AbstractTestCase {
 
         assertEquals(10, commits.size());
 
-        List<String> commitsString = new ArrayList<String>(commits.size());
-        for(CommitInfo commit : commits){
-            commitsString.add(commit.getCommitId());
-        }
+        String commitsString = (String) results.getData("CommitsString");
         
 //        Map<String, List<CommitInfo>> commitsPerFile = (Map<String, List<CommitInfo>>) results.getData("CommitsPerFile");
 //        assertNotNull(commitsPerFile);

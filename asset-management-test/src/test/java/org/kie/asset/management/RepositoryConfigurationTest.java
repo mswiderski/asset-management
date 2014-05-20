@@ -83,7 +83,13 @@ public class RepositoryConfigurationTest extends AbstractTestCase {
 		Thread.sleep(3000);		
 		assertProcessInstanceActive(processInstance.getId(), engine.getKieSession());
 		
-		Thread.sleep(3000);
+		Thread.sleep(6000);
+		List<Long> taskids = engine.getTaskService().getTasksByProcessInstanceId(processInstance.getId());
+		assertEquals(1, taskids.size());
+		
+		engine.getTaskService().skip(taskids.get(0), "Administrator");
+		
+
 		assertProcessInstanceCompleted(processInstance.getId(), engine.getKieSession());
 		
 		listcommand = new ListBranchesCommand();        
