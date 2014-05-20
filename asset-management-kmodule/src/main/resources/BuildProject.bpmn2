@@ -179,7 +179,7 @@
       <bpmn2:dataInputAssociation id="_K1at9txCEeOUOcLs05M2kw">
         <bpmn2:sourceRef>Exception</bpmn2:sourceRef>
         <bpmn2:targetRef>_21E66B17-E121-42CA-AFDD-805DC8CD605D_ErrorInputX</bpmn2:targetRef>
-        <bpmn2:transformation language="http://www.mvel.org/2.0">Error.getMessage()</bpmn2:transformation>
+        <bpmn2:transformation language="http://www.mvel.org/2.0"><![CDATA[Error.getMessage()]]></bpmn2:transformation>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_K1at99xCEeOUOcLs05M2kw">
         <bpmn2:targetRef>_21E66B17-E121-42CA-AFDD-805DC8CD605D_GroupIdInputX</bpmn2:targetRef>
@@ -340,7 +340,7 @@
       <bpmn2:dataInputAssociation id="_K1b8BdxCEeOUOcLs05M2kw">
         <bpmn2:sourceRef>Exception</bpmn2:sourceRef>
         <bpmn2:targetRef>_3E1BCB92-65A9-43FB-B789-1EA76BD15DF8_ErrorInputX</bpmn2:targetRef>
-        <bpmn2:transformation language="http://www.mvel.org/2.0">Error.getMessage()</bpmn2:transformation>
+        <bpmn2:transformation language="http://www.mvel.org/2.0"><![CDATA[Error.getMessage()]]></bpmn2:transformation>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_K1b8BtxCEeOUOcLs05M2kw">
         <bpmn2:targetRef>_3E1BCB92-65A9-43FB-B789-1EA76BD15DF8_GroupIdInputX</bpmn2:targetRef>

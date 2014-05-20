@@ -301,7 +301,7 @@
       <bpmn2:dataInputAssociation id="_hpydl9xCEeOUOcLs05M2kw">
         <bpmn2:sourceRef>Exception</bpmn2:sourceRef>
         <bpmn2:targetRef>_4F29A1C0-DF34-4245-9224-CD4CFCA93066_ErrorInputX</bpmn2:targetRef>
-        <bpmn2:transformation language="http://www.mvel.org/2.0">Error.getMessage()</bpmn2:transformation>
+        <bpmn2:transformation language="http://www.mvel.org/2.0"><![CDATA[Error.getMessage()]]></bpmn2:transformation>
       </bpmn2:dataInputAssociation>
       <bpmn2:dataInputAssociation id="_hpydmNxCEeOUOcLs05M2kw">
         <bpmn2:targetRef>_4F29A1C0-DF34-4245-9224-CD4CFCA93066_GroupIdInputX</bpmn2:targetRef>
