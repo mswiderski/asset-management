@@ -52,11 +52,13 @@ public class ListCommitsCommand extends GitCommand {
 
         Iterable<RevCommit> logs = git.log().add(branch).setMaxCount(maxCommits).call();
         List<CommitInfo> commits = new ArrayList<CommitInfo>();
+        String commitsString = "";
         for (RevCommit commit : logs) {
             String shortMessage = commit.getShortMessage();
             Date commitDate = new Date(commit.getCommitTime() * 1000L);
             CommitInfo commitInfo = new CommitInfo(commit.getId().getName(), shortMessage, commit.getAuthorIdent().getName(), commitDate);
             commits.add(commitInfo);
+            commitsString += commitInfo.getCommitId() + ",";
             System.out.println(commitInfo);
             commitInfo.setFilesInCommit(getFilesInCommit(git.getRepository(), commit));
         }
@@ -66,6 +68,7 @@ public class ListCommitsCommand extends GitCommand {
         ExecutionResults results = new ExecutionResults();
         results.setData("Commits", commits);
         results.setData("CommitsPerFile", commitsPerFile);
+        results.setData("CommitsString", commitsString);
         return results;
     }
     

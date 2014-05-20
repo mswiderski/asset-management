@@ -20,8 +20,9 @@ public class CherryPickCommand extends GitCommand {
         String gitRepo = (String) getParameter(commandContext, "GitRepository");
         String toBranchName = (String) getParameter(commandContext, "ToBranchName");
         String directPush = (String) getParameter(commandContext, "DirectPush");
-
-        List<String> commits = (List<String>) getParameter(commandContext, "Commits");
+        String commitsString = (String) getParameter(commandContext, "Commits");
+        String[] commits = commitsString.split(",");
+        //List<String> commits = (List<String>) getParameter(commandContext, "Commits");
 
         boolean push = true;
         if (directPush != null) {

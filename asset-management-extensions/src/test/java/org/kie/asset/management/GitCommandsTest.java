@@ -173,9 +173,9 @@ public class GitCommandsTest extends AbstractTestCase {
         removeAfterTest(workingCopyDir);
         
         CherryPickCommand cherryPickCommand = new CherryPickCommand();
-        List<String> commits = new ArrayList<String>();        
-        commits.add("3ed7d21eab4f9c29a815e708a8858046501886f1");
-        
+//        List<String> commits = new ArrayList<String>();        
+//        commits.add("3ed7d21eab4f9c29a815e708a8858046501886f1");
+        String commits = "3ed7d21eab4f9c29a815e708a8858046501886f1";
         workItem.setParameter("Commits", commits);
         workItem.setParameter("WorkingCopyDir", workingCopyDir);
         workItem.setParameter("ToBranchName", "DEV-BRANCH");
@@ -237,10 +237,10 @@ public class GitCommandsTest extends AbstractTestCase {
         removeAfterTest(workingCopyDir);
         
         CherryPickCommand cherryPickCommand = new CherryPickCommand();
-        List<String> commits = new ArrayList<String>();        
-        commits.add("81e02974268254b23f6285aabca910ac80156457");
-        commits.add("3ed7d21eab4f9c29a815e708a8858046501886f1");        
-        
+//        List<String> commits = new ArrayList<String>();        
+//        commits.add("81e02974268254b23f6285aabca910ac80156457");
+//        commits.add("3ed7d21eab4f9c29a815e708a8858046501886f1");        
+        String commits = "81e02974268254b23f6285aabca910ac80156457,3ed7d21eab4f9c29a815e708a8858046501886f1";
         workItem.setParameter("Commits", commits);
         workItem.setParameter("WorkingCopyDir", workingCopyDir);
         workItem.setParameter("ToBranchName", "DEV-BRANCH");

@@ -1,0 +1,39 @@
+
+<form id="41286632">
+<property name="subject" value=""/>
+<property name="name" value="SelectAssetsToPromote-taskform.form"/>
+<property name="displayMode" value="default"/>
+<property name="status" value="0"/>
+<field position="0" name="CommitsToPromote" type="InputText" id="1240947910">
+<property name="fieldRequired" value="false"/>
+<property name="label" value="quot;enquot;,quot;out_commits (CommitsToPromote)quot;"/>
+<property name="inputBinding" value=""/>
+<property name="outputBinding" value="out_commits"/>
+<property name="fieldClass" value="java.lang.String"/>
+</field>
+<field position="1" name="ListOfCommits" type="InputText" id="1489623548">
+<property name="fieldRequired" value="false"/>
+<property name="label" value="quot;enquot;,quot;in_list_of_commits (ListOfCommits)quot;"/>
+<property name="inputBinding" value="in_list_of_commits"/>
+<property name="outputBinding" value=""/>
+<property name="fieldClass" value="java.lang.String"/>
+</field>
+<field position="3" name="SourceBranchName" type="InputText" id="118081151">
+<property name="fieldRequired" value="false"/>
+<property name="label" value="quot;enquot;,quot;in_source_branch_name (SourceBranchName)quot;"/>
+<property name="inputBinding" value="in_source_branch_name"/>
+<property name="outputBinding" value=""/>
+<property name="fieldClass" value="java.lang.String"/>
+</field>
+<field position="2" name="RequiresReview" type="CheckBox" id="400377569">
+<property name="fieldRequired" value="false"/>
+<property name="label" value="quot;enquot;,quot;out_requires_review (RequiresReview)quot;"/>
+<property name="inputBinding" value=""/>
+<property name="outputBinding" value="out_requires_review"/>
+<property name="fieldClass" value="java.lang.Boolean"/>
+</field>
+<dataHolder inputId="" name="#B29FE4" type="basicType" outId="out_commits" value="java.lang.String" id="CommitsToPromote"/>
+<dataHolder inputId="in_list_of_commits" name="#FBB767" type="basicType" outId="" value="java.lang.String" id="ListOfCommits"/>
+<dataHolder inputId="" name="#FF8881" type="basicType" outId="out_requires_review" value="java.lang.Boolean" id="RequiresReview"/>
+<dataHolder inputId="in_source_branch_name" name="#FF54A7" type="basicType" outId="" value="java.lang.String" id="SourceBranchName"/>
+</form>
