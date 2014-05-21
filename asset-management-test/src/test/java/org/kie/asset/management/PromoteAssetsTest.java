@@ -37,13 +37,13 @@ public class PromoteAssetsTest extends AbstractTestCase {
     }
 
     @Before
-    public void setup() throws Exception {
-        cleanTestGitRepo();
+    public void setup() throws Exception {    	
+    	System.setProperty("org.uberfire.nio.git.ssh.enabled", "false");
+    	cleanTestGitRepo();
         setupTestGitRepo("https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git",
                 "jbpm-playground.git", "guvnorngtestuser1", "test1234");
         executorService = ExecutorServiceFactory.newExecutorService(getEmf());
         executorService.init();
-
         
         
         CreateBranchCommand createbranchCommand = new CreateBranchCommand();

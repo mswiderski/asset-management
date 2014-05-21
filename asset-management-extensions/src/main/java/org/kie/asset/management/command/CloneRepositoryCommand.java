@@ -12,10 +12,15 @@ public class CloneRepositoryCommand extends GitCommand {
     public ExecutionResults execute(CommandContext commandContext) throws Exception {
 
         String gitRepo = (String) getParameter(commandContext, "GitRepository");
+        String fromURI = null;
         
-        Git git = get(gitRepo);
-
-        String fromURI = git.getRepository().getDirectory().toURI().toString(); 
+        if (isGitServerEnabled()) {
+        	fromURI = getRepositoryLocation(gitRepo);
+        } else {
+        	Git git = get(gitRepo);
+        	fromURI = git.getRepository().getDirectory().toURI().toString();
+        }
+         
         File workingCopyDir = new File(System.getProperty("java.io.tmpdir")  + System.currentTimeMillis() + File.separator + gitRepo);
         Git.cloneRepository()
         .setBare( false )

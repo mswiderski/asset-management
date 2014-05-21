@@ -34,7 +34,8 @@ public class RepositoryConfigurationTest extends AbstractTestCase {
 	}
 	
     @Before
-    public void setup() throws Exception {
+    public void setup() throws Exception {    	
+    	System.setProperty("org.uberfire.nio.git.ssh.enabled", "false");
     	cleanTestGitRepo();
         setupTestGitRepo("https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git",
         		"jbpm-playground.git", "guvnorngtestuser1", "test1234");

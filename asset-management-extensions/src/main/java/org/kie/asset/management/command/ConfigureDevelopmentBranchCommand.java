@@ -68,7 +68,7 @@ public class ConfigureDevelopmentBranchCommand extends AbstractCommand {
 				Repository repo = repositoryService.getRepository(repository);
 				
 				Map<String, Object> config = new HashMap<String, Object>();
-				config.put("branch", branchToUpdate);
+				config.put("branch", branchToUpdate + "-" + version);
 				
 				repo = repositoryService.updateRepository(repo, config);
 				logger.debug("Updated repository " + repo);

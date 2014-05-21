@@ -27,7 +27,7 @@ public class BuildProjectTest extends AbstractTestCase {
 	
     @Before
     public void setup() throws Exception {
-
+    	System.setProperty("org.uberfire.nio.git.ssh.enabled", "false");
     }
     
     @After

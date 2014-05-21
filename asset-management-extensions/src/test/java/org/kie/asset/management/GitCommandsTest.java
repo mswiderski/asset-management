@@ -8,6 +8,7 @@ import java.util.Map;
 import org.drools.core.process.instance.impl.WorkItemImpl;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kie.asset.management.command.CherryPickCommand;
 import org.kie.asset.management.command.CloneRepositoryCommand;
@@ -31,6 +32,7 @@ public class GitCommandsTest extends AbstractTestCase {
 
     @Before
     public void setup() throws Exception {
+    	System.setProperty("org.uberfire.nio.git.ssh.enabled", "false");
     	cleanTestGitRepo();
         setupTestGitRepo("https://github.com/guvnorngtestuser1/jbpm-console-ng-playground-kjar.git",
         		"jbpm-playground.git", "guvnorngtestuser1", "test1234");
@@ -43,6 +45,11 @@ public class GitCommandsTest extends AbstractTestCase {
     
     @After
     public void cleanup() {
+    	System.clearProperty("org.uberfire.nio.git.ssh.host");
+        System.clearProperty("org.uberfire.nio.git.ssh.port");
+		System.clearProperty("org.uberfire.nio.git.dir");
+		System.clearProperty("org.uberfire.nio.git.ssh.user");
+		System.clearProperty("org.uberfire.nio.git.ssh.password");
     	cleanTestGitRepo();
     	logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     }
@@ -260,5 +267,38 @@ public class GitCommandsTest extends AbstractTestCase {
         
         assertEquals(messageBeforeCherryPick, message);
         
+    }
+    
+    @Ignore("Requires live server to be available")
+    @Test
+    public void testCreateBranchCommandRemote() throws Exception {
+    	System.setProperty("org.uberfire.nio.git.ssh.host", "localhost");
+        System.setProperty("org.uberfire.nio.git.ssh.port", "8001");
+        System.getProperty("org.uberfire.nio.git.ssh.enabled", "true");
+		System.setProperty("org.uberfire.nio.git.ssh.user", "admin");
+		System.setProperty("org.uberfire.nio.git.ssh.password", "admin");
+    	
+        CreateBranchCommand command = new CreateBranchCommand();
+        
+        workItem.setParameter("BranchName", "DEV-BRANCH");
+
+        command.execute(context);
+        
+    }
+    
+    @Ignore("Requires live server to be available")
+    @Test
+    public void testDeleteRemoteBranch() throws Exception {
+    	System.setProperty("org.uberfire.nio.git.ssh.host", "localhost");
+        System.setProperty("org.uberfire.nio.git.ssh.port", "8001");
+        System.getProperty("org.uberfire.nio.git.ssh.enabled", "true");
+		System.setProperty("org.uberfire.nio.git.ssh.user", "admin");
+		System.setProperty("org.uberfire.nio.git.ssh.password", "admin");
+    	
+    	DeleteBranchCommand deleteCommand = new DeleteBranchCommand();
+    	
+    	workItem.setParameter("BranchName", "DEV-BRANCH");
+    	
+        deleteCommand.execute(context);
     }
 }
